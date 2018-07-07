@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="horizontal"
+    android:id="@+id/recipe_item_main_layout"
+    android:layout_width="match_parent"
+    android:layout_height="220dp"
+    android:gravity="center"
+    android:background="@drawable/rectangle_shape"
+    android:layout_margin="5dp">
+
+    <ImageView
+        android:id="@+id/recipe_item_image"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="3"
+        android:scaleType="centerCrop" />
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="0dp"
+        android:layout_weight="1.5"
+        android:layout_height="match_parent"
+        android:gravity="center">
+
+        <TextView
+            android:id="@+id/recipe_item_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:maxWidth="100dp"
+            android:textAlignment="center"
+            android:textColor="@android:color/white"
+            android:textSize="18sp"
+            android:layout_marginBottom="6dp"
+            tools:text="Shrimps" />
+
+        <TextView
+            android:id="@+id/recipe_item_servings"
+            android:layout_width="50dp"
+            android:layout_height="30dp"
+            android:drawableLeft="@drawable/servings_logo_white"
+            android:drawableStart="@drawable/servings_logo_white"
+            android:gravity="center"
+            android:layout_margin="5dp"
+            android:textSize="15sp"
+            android:textColor="@android:color/white"
+            tools:text="8" />
+
+    </LinearLayout>
+
+</LinearLayout>

@@ -1,0 +1,32 @@
+<resources>
+    <string name="app_name">BakingApp</string>
+    <string name="appwidget_text">EXAMPLE</string>
+    <string name="add_widget">Add widget</string>
+
+    <!--Widget-->
+    <string name="widget_name">FavoriteRecipe</string>
+    <string name="widget_updated_toast_message">Widget Updated :-)</string>
+    <string name="widget_empty_message">Choose a Recipe</string>
+    <string name="widget_empty_ingredients_message">Ready to bake some delicious desserts?</string>
+
+    <!--Favorites fragment-->
+    <string name="no_favorites_selected_message">No Favorite Recipes Selected</string>
+
+    <!--Connection message-->
+    <string name="no_connection_message">Ready to bake some recipes?</string>
+
+    <!--Dialogs-->
+    <string name="connection_dialog_title">No Internet Connection</string>
+    <string name="connection_dialog_message">Please reconnect to bake these delicious recipes : )</string>
+    <string name="ok">OK</string>
+
+    <!--Menu-->
+    <string name="menu_add_to_widget">Add to Widget</string>
+    <string name="menu_favorite">Favorite</string>
+
+    <!--Toasts-->
+    <string name="removed_from_favorites_message">Removed From Favorites</string>
+    <string name="added_to_favorites_message">Added to Favorites :)</string>
+</resources>
+
+
