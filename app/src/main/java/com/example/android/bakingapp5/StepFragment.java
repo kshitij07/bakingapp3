@@ -68,7 +68,8 @@ public class StepFragment extends Fragment implements Player.EventListener {
 
     private static final String RECIPE_STEP_KEY = "recipe_step";
     private static final String PLAYER_POSITION_KEY = "playerPosition";
-
+    private boolean PLAY_WHEN_READY;
+    private static final int CURRENT_WINDOW = 0;
 
     /*
      * Fields
@@ -110,7 +111,7 @@ public class StepFragment extends Fragment implements Player.EventListener {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.step_fragment, container, false);
-
+        PLAY_WHEN_READY = true;
         // Bind views
         unbinder = ButterKnife.bind(this, rootView);
 
@@ -184,7 +185,7 @@ public class StepFragment extends Fragment implements Player.EventListener {
             MediaSource mediaSource = setupMediaSource(getActivity(), videoUrlString);
 
             mExoPlayer.prepare(mediaSource);
-            mExoPlayer.setPlayWhenReady(false);
+            mExoPlayer.setPlayWhenReady(PLAY_WHEN_READY);
         }
     }
 
@@ -317,5 +318,13 @@ public class StepFragment extends Fragment implements Player.EventListener {
     @Override
     public void onPlaybackParametersChanged(PlaybackParameters playbackParameters) {
 
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        if(mExoPlayer == null){
+            initializeExoPlayer(mStep.getStepVideoUrl(), mSimpleExoPlayerView);
+        }
     }
 }
