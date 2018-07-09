@@ -68,8 +68,8 @@ public class StepFragment extends Fragment implements Player.EventListener {
 
     private static final String RECIPE_STEP_KEY = "recipe_step";
     private static final String PLAYER_POSITION_KEY = "playerPosition";
-    private boolean PLAY_WHEN_READY;
-    private static final int CURRENT_WINDOW = 0;
+    private boolean PLAY_WHEN_READY = false;
+    private static int CURRENT_WINDOW;
 
     /*
      * Fields
@@ -81,6 +81,8 @@ public class StepFragment extends Fragment implements Player.EventListener {
 
     // Butter Knife
     private Unbinder unbinder;
+    private long position;
+    private int currentWindow;
 
 
     /*
@@ -182,10 +184,11 @@ public class StepFragment extends Fragment implements Player.EventListener {
                     trackSelector);
 
             playerView.setPlayer(mExoPlayer);
+            mExoPlayer.setPlayWhenReady(PLAY_WHEN_READY);
+            mExoPlayer.seekTo(currentWindow, position);
             MediaSource mediaSource = setupMediaSource(getActivity(), videoUrlString);
 
             mExoPlayer.prepare(mediaSource);
-            mExoPlayer.setPlayWhenReady(PLAY_WHEN_READY);
         }
     }
 
@@ -237,12 +240,16 @@ public class StepFragment extends Fragment implements Player.EventListener {
     @Override
     public void onSaveInstanceState(@NonNull Bundle outState) {
 
-        if(mExoPlayer != null) {
-            long position = mExoPlayer.getCurrentPosition();
-            outState.putLong(PLAYER_POSITION_KEY, position);
-        }
-
         super.onSaveInstanceState(outState);
+//        if(mExoPlayer != null) {
+//            position = mExoPlayer.getCurrentPosition();
+//            outState.putLong(PLAYER_POSITION_KEY, position);
+//
+////            PLAY_WHEN_READY = mExoPlayer.getPlayWhenReady();
+//            outState.putBoolean("state", PLAY_WHEN_READY);
+//        }
+        outState.putInt("current_window", currentWindow);
+        outState.putLong("play_back_pos", position);
     }
 
     /*
@@ -259,8 +266,13 @@ public class StepFragment extends Fragment implements Player.EventListener {
     @Override
     public void onPause() {
         super.onPause();
-        if (mExoPlayer != null) {
+        if (mExoPlayer != null || Util.SDK_INT <= 23) {
+            position = mExoPlayer.getCurrentPosition();
+            currentWindow = mExoPlayer.getCurrentWindowIndex();
+            PLAY_WHEN_READY = mExoPlayer.getPlayWhenReady();
             mExoPlayer.stop();
+            mExoPlayer.release();
+//            mExoPlayer.stop();
         }
     }
 
@@ -323,8 +335,24 @@ public class StepFragment extends Fragment implements Player.EventListener {
     @Override
     public void onResume() {
         super.onResume();
-        if(mExoPlayer == null){
+        if ((Util.SDK_INT <= 23 || mExoPlayer == null)) {
             initializeExoPlayer(mStep.getStepVideoUrl(), mSimpleExoPlayerView);
         }
+    }
+
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        if (savedInstanceState != null) {
+            position = savedInstanceState.getLong("play_back_pos");
+            currentWindow = savedInstanceState.getInt("current_window");
+        }
+
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        initializeExoPlayer(mStep.getStepVideoUrl(), mSimpleExoPlayerView);
     }
 }
